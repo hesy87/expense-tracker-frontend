@@ -1,0 +1,42 @@
+@if (loading$ | async) {
+  <div class="min-h-screen flex items-center justify-center bg-slate-50 text-slate-400">
+    Loading...
+  </div>
+}
+
+@if (!(loading$ | async) && !(session$ | async)) {
+  <app-auth></app-auth>
+}
+
+@if ((session$ | async)) {
+  <div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
+    <main class="max-w-md mx-auto min-h-screen bg-white shadow-2xl overflow-hidden relative">
+      <div class="h-full overflow-y-auto p-4 scrollbar-hide">
+        @if (currentTab === 'dashboard') {
+          <app-dashboard></app-dashboard>
+        }
+        @if (currentTab === 'history') {
+          <app-history></app-history>
+        }
+        @if (currentTab === 'insights') {
+          <app-insights></app-insights>
+        }
+        @if (currentTab === 'settings') {
+          <app-settings></app-settings>
+        }
+      </div>
+      @if (!isAddOpen) {
+        <app-navigation
+          [currentTab]="currentTab"
+          (tabChange)="setTab($event)"
+          (add)="openAdd()"
+        ></app-navigation>
+      }
+      @if (isAddOpen) {
+        <div class="absolute inset-0 z-[60] bg-white slide-in-up">
+          <app-add-expense (back)="closeAdd()" (complete)="closeAdd()"></app-add-expense>
+        </div>
+      }
+    </main>
+  </div>
+}

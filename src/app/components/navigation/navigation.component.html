@@ -1,0 +1,24 @@
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 pb-safe shadow-lg z-50">
+  <div class="flex justify-around items-center h-16 max-w-md mx-auto px-2">
+    @for (tab of tabs; track tab) {
+      @if (tab.special) {
+        <div class="relative -top-5">
+          <button mat-fab color="primary" class="h-14 w-14 bg-slate-900 hover:bg-slate-800 shadow-lg shadow-slate-900/20" (click)="handleTab(tab)">
+            <mat-icon class="text-white">{{ tab.icon }}</mat-icon>
+          </button>
+        </div>
+      }
+      @if (!tab.special) {
+        <button
+          type="button"
+          (click)="handleTab(tab)"
+          class="flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors"
+          [ngClass]="currentTab === tab.id ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'"
+          >
+          <mat-icon [ngClass]="currentTab === tab.id ? 'text-[22px]' : 'text-[20px]'">{{ tab.icon }}</mat-icon>
+          <span class="text-[10px] font-medium">{{ tab.label }}</span>
+        </button>
+      }
+    }
+  </div>
+</nav>

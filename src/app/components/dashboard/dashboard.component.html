@@ -1,0 +1,105 @@
+@if (!loading) {
+  <div class="space-y-6 pb-20">
+    <header class="flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">Dashboard</h1>
+        <p class="text-slate-500">Welcome back, here's your summary.</p>
+      </div>
+      <div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
+      </div>
+    </header>
+    <div class="grid grid-cols-2 gap-4">
+      <mat-card class="bg-black text-white border-0 shadow-none ring-1 ring-white/10">
+        <mat-card-content class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-zinc-400 text-sm font-medium">Total Spent</p>
+              <h2 class="text-2xl font-semibold mt-2 tracking-tight">{{ formatCurrency(totalSpent) }}</h2>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center text-xs text-zinc-400">
+            <span class="bg-white/10 px-2 py-0.5 rounded-full text-white mr-2 flex items-center">
+              <span class="material-icons text-[14px] mr-1">trending_up</span> 12%
+            </span>
+            <span>vs last month</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="bg-white border-zinc-100 shadow-sm">
+        <mat-card-content class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-zinc-500 text-sm font-medium">Savings Goal</p>
+              <h2 class="text-2xl font-semibold mt-2 text-emerald-600 tracking-tight">{{ formatCurrency(savings) }}</h2>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center text-xs text-zinc-500">
+            <span class="text-emerald-600 font-medium mr-1">On track</span>
+            <span>to reach goal</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <mat-card class="bg-white border-zinc-100 shadow-sm overflow-hidden relative fade-in-up">
+      <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500/80"></div>
+      <mat-card-content class="p-5 flex gap-4 items-start">
+        <div class="bg-emerald-50 p-2.5 rounded-xl text-emerald-600 shrink-0">
+          <span class="material-icons text-[20px]">lightbulb</span>
+        </div>
+        <div>
+          <h3 class="font-medium text-zinc-900 text-sm mb-1">Smart Insight</h3>
+          <p class="text-zinc-600 text-sm leading-relaxed">
+            You usually buy coffee around <strong>3 PM</strong>. Today,
+            <span class="font-medium text-emerald-700"> "Bean There"</span> nearby offers
+            <span class="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded-md ml-1 font-medium text-xs">20% off</span>.
+          </p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="border-0 shadow-none bg-transparent">
+      <mat-card-header class="pb-2 px-0">
+        <mat-card-title class="text-base font-medium text-zinc-900">Spending Trend</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="px-0 h-[180px]">
+        <div class="w-full h-full">
+          <svg viewBox="0 0 320 140" class="w-full h-full">
+            <defs>
+              <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stop-color="#10b981" stop-opacity="0.12"></stop>
+                <stop offset="95%" stop-color="#10b981" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <path [attr.d]="chartAreaPath" fill="url(#chartGradient)"></path>
+            <path [attr.d]="chartPath" fill="none" stroke="#10b981" stroke-width="2"></path>
+          </svg>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div>
+      <h3 class="text-lg font-medium text-zinc-900 mb-4">Recent Activity</h3>
+      <div class="space-y-0 divide-y divide-zinc-50">
+        @for (expense of expenses.slice(0, 5); track expense) {
+          <div class="flex items-center justify-between py-3.5 group">
+            <div class="flex items-center gap-3">
+              <div class="h-10 w-10 rounded-full bg-zinc-50 border border-zinc-100 flex items-center justify-center text-lg text-zinc-500 shrink-0">
+                {{ getCategoryIcon(expense.category) }}
+              </div>
+              <div>
+                <p class="font-medium text-zinc-900 text-sm">{{ expense.category }}</p>
+                <p class="text-xs text-zinc-500">{{ formatDate(expense.date) }} • {{ expense.location || 'Unknown location' }}</p>
+              </div>
+            </div>
+            <span class="font-medium text-zinc-900 text-sm">-{{ formatCurrency(expense.amount) }}</span>
+          </div>
+        }
+        @if (expenses.length === 0) {
+          <p class="text-center text-zinc-400 py-4 text-sm">No recent transactions.</p>
+        }
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="p-8">Loading...</div>
+}
+

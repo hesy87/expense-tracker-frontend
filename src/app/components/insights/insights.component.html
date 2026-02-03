@@ -1,0 +1,88 @@
+<div class="space-y-6 pb-20">
+  <header>
+    <h1 class="text-2xl font-bold text-slate-900">Smart Insights</h1>
+    <p class="text-slate-500">AI-powered suggestions to save money.</p>
+  </header>
+
+  @if (expenses.length < 5) {
+    <mat-card class="bg-white border border-dashed border-zinc-200 shadow-none">
+      <mat-card-content class="flex flex-col items-center text-center p-8">
+        <div class="h-12 w-12 bg-zinc-50 rounded-full flex items-center justify-center mb-4">
+          <mat-icon class="text-zinc-300">lightbulb</mat-icon>
+        </div>
+        <h3 class="font-medium text-zinc-900">Analyzing Habits...</h3>
+        <p class="text-zinc-500 text-sm mt-2 max-w-xs leading-relaxed">
+          Log a few more expenses to unlock personalized insights and saving tips.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (expenses.length >= 5) {
+    <div class="space-y-4">
+      @if (hasCoffee) {
+        <mat-card class="bg-white border-zinc-100 shadow-sm overflow-hidden group hover:border-zinc-200 transition-colors">
+          <mat-card-content class="p-5">
+            <div class="flex items-start gap-4">
+              <div class="p-2.5 bg-amber-50 rounded-xl text-amber-600 shrink-0">
+                <mat-icon>local_cafe</mat-icon>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-medium text-zinc-900 mb-1">Coffee Habit</h4>
+                <p class="text-sm text-zinc-600 leading-relaxed mb-4">
+                  You spend approx. <span class="font-medium text-zinc-900">{{ formatCurrency(categoryTotals['Coffee'] || 0) }}</span> on coffee monthly.
+                </p>
+                <div class="bg-zinc-50 rounded-lg p-3 flex gap-3 items-center">
+                  <div class="bg-emerald-100 p-1.5 rounded-md shrink-0">
+                    <mat-icon class="text-emerald-600 text-[18px]">trending_down</mat-icon>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-zinc-900">Switch to Home Brew</p>
+                    <p class="text-xs text-zinc-500">Could save you <span class="text-emerald-600 font-medium">€45/mo</span>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+      @if (hasFuel) {
+        <mat-card class="bg-white border-zinc-100 shadow-sm overflow-hidden group hover:border-zinc-200 transition-colors">
+          <mat-card-content class="p-5">
+            <div class="flex items-start gap-4">
+              <div class="p-2.5 bg-blue-50 rounded-xl text-blue-600 shrink-0">
+                <mat-icon>local_gas_station</mat-icon>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-medium text-zinc-900 mb-1">Fuel Efficiency</h4>
+                <p class="text-sm text-zinc-600 leading-relaxed mb-4">
+                  Refueling on Tuesdays is historically 3% cheaper in your area.
+                </p>
+                <button mat-stroked-button class="w-full bg-white text-zinc-700 border-zinc-200 hover:bg-zinc-50 hover:text-zinc-900 font-normal h-8 text-xs">
+                  Find Cheap Gas Nearby <mat-icon class="ml-1 text-[16px]">arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+      @if (hasGrocery) {
+        <mat-card class="bg-white border-zinc-100 shadow-sm overflow-hidden group hover:border-zinc-200 transition-colors">
+          <mat-card-content class="p-5">
+            <div class="flex items-start gap-4">
+              <div class="p-2.5 bg-emerald-50 rounded-xl text-emerald-600 shrink-0">
+                <mat-icon>shopping_basket</mat-icon>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-medium text-zinc-900 mb-1">Grocery Run</h4>
+                <p class="text-sm text-zinc-600 leading-relaxed">
+                  Buying bulk on weekends can reduce your bill by 15%.
+                </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
