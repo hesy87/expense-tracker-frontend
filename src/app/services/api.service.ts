@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
@@ -6,9 +6,9 @@ import { Expense } from '../models/expense';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly serverUrl = `https://${projectId}.supabase.co/functions/v1/make-server-138b1373`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private readonly serverUrl = `https://${projectId}.supabase.co/functions/v1/make-server-138b1373`;
 
   signup(email: string, password: string, name: string) {
     return firstValueFrom(

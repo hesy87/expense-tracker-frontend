@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from './api.service';
@@ -8,18 +8,19 @@ import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
+  private api = inject(ApiService);
+  private supabaseService = inject(SupabaseService);
+  private snackBar = inject(MatSnackBar);
+
   private expensesSubject = new BehaviorSubject<Expense[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(true);
 
   expenses$ = this.expensesSubject.asObservable();
   loading$ = this.loadingSubject.asObservable();
 
-  constructor(
-    private api: ApiService,
-    private supabaseService: SupabaseService,
-    private snackBar: MatSnackBar,
-    authService: AuthService
-  ) {
+  constructor() {
+    const authService = inject(AuthService);
+
     authService.session$.subscribe((session) => {
       if (session) {
         void this.refreshExpenses();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
+
 
   async logout() {
     await this.authService.signOut();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,14 +15,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {
+  private authService = inject(AuthService);
+
   isLogin = true;
   loading = false;
 
   name = '';
   email = '';
   password = '';
-
-  constructor(private authService: AuthService) {}
 
   toggleMode() {
     this.isLogin = !this.isLogin;

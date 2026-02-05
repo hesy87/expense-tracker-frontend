@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './components/auth/auth.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HistoryComponent } from './components/history/history.component';
 import { InsightsComponent } from './components/insights/insights.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -11,6 +10,7 @@ import { AuthService } from './services/auth.service';
 import { Observable } from 'rxjs';
 import type { Session } from '@supabase/supabase-js';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',
@@ -30,12 +30,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  private authService = inject(AuthService);
+
   currentTab = 'dashboard';
   isAddOpen = false;
   session$: Observable<Session | null>;
   loading$: Observable<boolean>;
 
-  constructor(private authService: AuthService) {
+  constructor() {
     this.session$ = this.authService.session$;
     this.loading$ = this.authService.loading$;
   }

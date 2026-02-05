@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../models/expense';
@@ -14,10 +14,10 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
+  private expenseService = inject(ExpenseService);
+
   expenses: Expense[] = [];
   groupedList: { date: string; items: Expense[] }[] = [];
-
-  constructor(private expenseService: ExpenseService) {}
 
   ngOnInit() {
     this.expenseService.expenses$.subscribe((expenses) => {

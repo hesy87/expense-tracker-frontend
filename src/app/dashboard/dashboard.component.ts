@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ExpenseService } from '../../services/expense.service';
-import { Expense } from '../../models/expense';
-import { formatCurrency, formatDate } from '../../utils/format';
+import { ExpenseService } from '../services/expense.service';
+import { Expense } from '../models/expense';
+import { formatCurrency, formatDate } from '../utils/format';
+
 
 interface ChartPoint {
   x: number;
@@ -18,6 +18,8 @@ interface ChartPoint {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  private expenseService = inject(ExpenseService);
+
   expenses: Expense[] = [];
   loading = true;
   totalSpent = 0;
@@ -25,8 +27,6 @@ export class DashboardComponent implements OnInit {
   dailyData: { date: string; amount: number }[] = [];
   chartPath = '';
   chartAreaPath = '';
-
-  constructor(private expenseService: ExpenseService) {}
 
   ngOnInit() {
     this.expenseService.loading$.subscribe((loading) => (this.loading = loading));
@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
 
     const dailyMap: Record<string, number> = {};
     for (const expense of thisMonthExpenses) {
-      const dateLabel = formatDate(expense.date);
+      const dateLabel = this.formatChartDate(expense.date);
       dailyMap[dateLabel] = (dailyMap[dateLabel] || 0) + expense.amount;
     }
 
@@ -88,6 +88,10 @@ export class DashboardComponent implements OnInit {
 
     this.chartPath = linePath;
     this.chartAreaPath = areaPath;
+  }
+
+  private formatChartDate(dateString: string) {
+    return new Date(dateString).toLocaleDateString('en-CA');
   }
 
   getCategoryIcon(category: string) {

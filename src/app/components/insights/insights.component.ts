@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +15,8 @@ import { formatCurrency } from '../../utils/format';
   styleUrls: ['./insights.component.scss']
 })
 export class InsightsComponent implements OnInit {
+  private expenseService = inject(ExpenseService);
+
   expenses: Expense[] = [];
   categoryTotals: Record<string, number> = {};
 
@@ -24,8 +26,6 @@ export class InsightsComponent implements OnInit {
       this.buildTotals();
     });
   }
-
-  constructor(private expenseService: ExpenseService) {}
 
   formatCurrency = formatCurrency;
 

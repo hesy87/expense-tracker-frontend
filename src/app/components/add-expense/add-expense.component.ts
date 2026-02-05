@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +22,9 @@ interface CategoryItem {
   styleUrls: ['./add-expense.component.scss']
 })
 export class AddExpenseComponent implements OnInit, OnDestroy {
+  private expenseService = inject(ExpenseService);
+  private snackBar = inject(MatSnackBar);
+
   @Output() back = new EventEmitter<void>();
   @Output() complete = new EventEmitter<void>();
 
@@ -44,8 +47,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     { id: 'Health', icon: '💊', label: 'Health' },
     { id: 'Other', icon: '📝', label: 'Other' }
   ];
-
-  constructor(private expenseService: ExpenseService, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.locationTimer = window.setTimeout(() => {

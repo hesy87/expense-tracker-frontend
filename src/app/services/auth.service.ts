@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SupabaseService } from './supabase.service';
 import { ApiService } from './api.service';
@@ -7,18 +7,16 @@ import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService implements OnDestroy {
+  private supabaseService = inject(SupabaseService);
+  private api = inject(ApiService);
+  private snackBar = inject(MatSnackBar);
+
   private sessionSubject = new BehaviorSubject<Session | null>(null);
   private loadingSubject = new BehaviorSubject<boolean>(true);
   private subscription: { unsubscribe: () => void } | null = null;
 
   session$ = this.sessionSubject.asObservable();
   loading$ = this.loadingSubject.asObservable();
-
-  constructor(
-    private supabaseService: SupabaseService,
-    private api: ApiService,
-    private snackBar: MatSnackBar
-  ) {}
 
   async init() {
     const { data } = await this.supabaseService.client.auth.getSession();
